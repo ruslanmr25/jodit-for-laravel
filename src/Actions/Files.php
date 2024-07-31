@@ -37,6 +37,8 @@ class Files extends AbstractFileBrowserAction
         }
 
         $this->folder = FolderDto::byParams(
+
+
             $this->fileBrowser->getNameByPath($path),
             $this->fileBrowser->getUrl('/'),
             [],
@@ -56,6 +58,7 @@ class Files extends AbstractFileBrowserAction
                     'thumb' => !$this->isImage($filePath)
                         ? $this->getThumbByFilePath($filePath)
                         : null,
+
                     'changed' => $this->getChangedTimeByFilePath($filePath),
                     'size' => $this->getSizeByFilePath($filePath),
                 ];

@@ -25,6 +25,7 @@ class FileBrowserStorage
 
     public function getFullRoot(?string $path = null): string
     {
+
         return config('jodit.root') . DIRECTORY_SEPARATOR . remove_trailing_slashes($path);
     }
 
@@ -154,15 +155,27 @@ class FileBrowserStorage
 
     public function lastModified(string $path): int
     {
-        return $this->fs->lastModified(
-            $this->getFullRoot($path)
-        );
+
+        $fullPath = $this->getFullRoot($path);
+
+        if (!$this->fs->exists($path)) {
+            // throw new Exception($path);
+            throw new \Exception("File does not exist at location: " . $fullPath);
+        }
+
+
+
+        try {
+            return $this->fs->lastModified($path);
+        } catch (\Exception $e) {
+            throw new \Exception("Unable to retrieve the last_modified for file at location: " . $fullPath . ". Error: " . $e->getMessage());
+        }
     }
 
     public function size(string $path): int
     {
         return $this->fs->size(
-            $this->getFullRoot($path)
+            $path
         );
     }
 

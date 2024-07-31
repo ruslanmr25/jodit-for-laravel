@@ -61,8 +61,14 @@ final class FolderDto implements Arrayable
 
     public function toArray(): array
     {
+
+        $baseUrl = config('app.url'). '/' . $this->getBaseUrl();
+
+        // throw new \Exception($baseUrl);
+
         return [
-            'baseurl' => $this->getBaseUrl(),
+            'name' => 'default',
+            'baseurl' => $baseUrl,
             'path' => $this->hasPath() ? $this->getPath() : '',
             'files' => collect($this->getFiles())->toArray(),
             'folders' => $this->getSubFolders()

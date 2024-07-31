@@ -29,7 +29,7 @@ class FileBrowserRequest extends FormRequest
         return [
             'action' => ['required', 'string'],
             'path' => ['nullable', 'string', new PathValidator()],
-            'source' => ['required', 'string'],
+            'source' => ['string'],
             'from' => ['sometimes', 'string'],
             'name' => [$this->nameRule(), 'string'],
             'newname' => [$this->newNameRule(), 'string'],
@@ -56,5 +56,11 @@ class FileBrowserRequest extends FormRequest
     public function getDto(): FileBrowserDto
     {
         return FileBrowserDto::byRequest($this);
+    }
+
+    public function prepareForValidation(){
+        $this->merge([
+            'source'=>$this->source??'default'
+        ]);
     }
 }

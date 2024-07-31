@@ -35,6 +35,8 @@ class JoditController extends Controller
      */
     public function browse(FileBrowserRequest $request, FileManipulationFactory $factory): JsonResource
     {
+
+        
         return $factory
             ->create($request->getDto())
             ->handle()

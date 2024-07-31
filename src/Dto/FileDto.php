@@ -29,14 +29,22 @@ class FileDto implements Arrayable
         return $self;
     }
 
+
+    /**
+     * shu yerni o'zgartdim thumbni
+     * @return array
+     */
     public function toArray(): array
     {
         return [
             'file' => $this->getFileName(),
-            'thumb' => $this->hasThumb() ? $this->getThumb() : null,
+            'thumb' => true ?$this->getFileName() : null,
+            // 'thumb' => $this->hasThumb() ? $this->getThumb() : null,
             'changed' => $this->getChanged()->format('d/m/Y H:m A'),
             'size' => $this->getSizeInKb(),
             'thumbIsAbsolute' => $this->hasThumb(),
+            'isImage'=>true,
+            'type'=>'image'
         ];
     }
 
