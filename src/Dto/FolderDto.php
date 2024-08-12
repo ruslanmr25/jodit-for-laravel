@@ -62,7 +62,13 @@ final class FolderDto implements Arrayable
     public function toArray(): array
     {
 
-        $baseUrl = config('app.url'). '/' . $this->getBaseUrl();
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https" : "http";
+        $domain = $_SERVER['HTTP_HOST'];
+
+        $url = $protocol . "://" . $domain;
+
+
+        $baseUrl = $url  . $this->getBaseUrl();
 
         // throw new \Exception($baseUrl);
 

@@ -100,6 +100,8 @@ class Files extends AbstractFileBrowserAction
 
     protected function getSizeByFilePath(string $filePath): int
     {
+
+        
         return $this->fileBrowser->size($filePath);
     }
 

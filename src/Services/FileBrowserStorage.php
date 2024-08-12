@@ -158,25 +158,40 @@ class FileBrowserStorage
 
         $fullPath = $this->getFullRoot($path);
 
-        if (!$this->fs->exists($path)) {
-            // throw new Exception($path);
-            throw new \Exception("File does not exist at location: " . $fullPath);
+        if ($this->fs->exists($fullPath)) {
+            return $this->fs->lastModified($fullPath);
         }
-
-
-
-        try {
+        if ($this->fs->exists($path)) {
             return $this->fs->lastModified($path);
-        } catch (\Exception $e) {
-            throw new \Exception("Unable to retrieve the last_modified for file at location: " . $fullPath . ". Error: " . $e->getMessage());
         }
+
+        // if (!$this->fs->exists($fullPath)) {
+        //     if (!$this->fs->exists($path))
+        //         // throw new Exception($path);
+        //         throw new \Exception("File does not exist at location: " . $fullPath);
+        // }
+
+
+        throw new \Exception("Unable to retrieve the last_modified for file at location: " . $fullPath . ". Error: " . $e->getMessage());
+
+        // try {
+        //     return $this->fs->lastModified($fullPath);
+        // } catch (\Exception $e) {
+        // }
     }
 
     public function size(string $path): int
     {
-        return $this->fs->size(
-            $path
-        );
+        if ($this->fs->exists($this->getFullRoot($path))) {
+            return $this->fs->size(
+                $this->getFullRoot($path)
+            );
+        }
+        if ($this->fs->exists($path)) {
+            return $this->fs->size(
+                $path
+            );
+        }
     }
 
     public function files(?string $path = null, bool $recursive = false): array
